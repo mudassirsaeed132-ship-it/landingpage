@@ -1,0 +1,16 @@
+/* Prevent default marker + keep pixel-clean accordion headers */
+.listingDetail summary::-webkit-details-marker {
+  display: none;
+}
+.listingDetail summary {
+  list-style: none;
+}
+
+/* Reliable line clamp without depending on Tailwind plugin */
+.lineClamp3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
