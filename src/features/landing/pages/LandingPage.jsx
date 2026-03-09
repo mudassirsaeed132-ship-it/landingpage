@@ -12,12 +12,12 @@ export default function LandingPage() {
       <HeroSection />
 
       {/* Categories row (with divider inside CategoryRow) */}
-      <section className="pt-12 pb-8 md:pt-14 md:pb-10">
+      <section className="pt-12 pb-4 md:pt-14 md:pb-6">
         <CategoryRow />
       </section>
 
       {/* New this week */}
-      <section className="py-12 md:py-14">
+      <section className="pt-6 pb-12 md:pt-8 md:pb-14">
         <Container>
           <ListingRow
             title={landingSections[0].title}

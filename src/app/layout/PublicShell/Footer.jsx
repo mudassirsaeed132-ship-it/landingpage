@@ -33,10 +33,11 @@ export default function Footer() {
           {/* download strip */}
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-3">
             <div>
-              <p className="text-lg font-semibold text-[#D66557]">
+              <p className="text-[18px] font-semibold leading-[1.3] text-[#D66557]">
                 Find amazing deals on the go.
               </p>
-              <h3 className="mt-2 text-2xl font-extrabold text-slate-900">
+
+              <h3 className="mt-3 text-[24px] font-semibold leading-[1.25] text-slate-900">
                 Download Real estate app now!
               </h3>
             </div>

@@ -30,36 +30,23 @@ function IconPin({ className, stroke = "#111827" }) {
   );
 }
 
-function IconBed({ className, stroke = "#111827" }) {
+function MaskIcon({ className, src, color = "#111827" }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-      <path d="M3 12h18" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M4 12V8.8c0-1 0.8-1.8 1.8-1.8h5.4c1 0 1.8.8 1.8 1.8V12"
-        stroke={stroke}
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path d="M3 12v7M21 12v7" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-      <path d="M3 16h18" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconArea({ className, stroke = "#111827" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={`${className} block`} fill="none" aria-hidden="true">
-      <rect
-        x="7"
-        y="7"
-        width="10"
-        height="10"
-        rx="2"
-        stroke={stroke}
-        strokeWidth="2"
-        strokeDasharray="3 3"
-      />
-    </svg>
+    <span
+      aria-hidden="true"
+      className={cn("block shrink-0", className)}
+      style={{
+        backgroundColor: color,
+        maskImage: `url(${src})`,
+        WebkitMaskImage: `url(${src})`,
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center",
+        maskSize: "contain",
+        WebkitMaskSize: "contain",
+      }}
+    />
   );
 }
 
@@ -114,8 +101,9 @@ export default function PropertyCard({
 }) {
   const rooms = item.roomsLabel ?? item.stats?.[0];
   const area = item.areaLabel ?? item.stats?.[1];
-  const iconStroke = variant === "search" ? accent : "#111827";
+
   const metaText = "text-slate-400";
+  const iconBlack = "#111827";
 
   const images = useMemo(() => {
     const list = Array.isArray(item.images) ? item.images.filter(Boolean) : [];
@@ -232,18 +220,26 @@ export default function PropertyCard({
         </h3>
 
         <div className="mt-2.5 flex items-center gap-2.5">
-          <IconPin className="h-5 w-5 shrink-0" stroke={iconStroke} />
+          <IconPin className="h-5 w-5 shrink-0" stroke={iconBlack} />
           <p className={cn("text-[13px] font-medium", metaText)}>{item.location}</p>
         </div>
 
         <div className={cn("mt-3 flex items-center gap-6", metaText)}>
           <div className="flex items-center gap-2">
-            <IconBed className="h-5 w-5" stroke={iconStroke} />
+            <MaskIcon
+              src="/images/icons/bedrooms.svg"
+              color={iconBlack}
+              className="h-5 w-5"
+            />
             <span className="text-[12px] font-medium">{rooms}</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <IconArea className="h-5 w-5" stroke={iconStroke} />
+            <MaskIcon
+              src="/images/icons/size.svg"
+              color={iconBlack}
+              className="h-5 w-5"
+            />
             <span className="text-[12px] font-medium">{area}</span>
           </div>
         </div>
