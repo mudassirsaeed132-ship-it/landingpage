@@ -10,8 +10,8 @@ import { useUI } from "../../../shared/ui/UIProvider";
 function TopBar() {
   return (
     <div className="bg-[#D66557] text-white">
-      <Container className="flex h-10 items-center justify-end gap-6 text-[12px]">
-        <span className="flex items-center gap-2">
+      <Container className="flex h-10 items-center justify-end gap-4 text-[12px] sm:gap-6">
+        <span className="hidden items-center gap-2 sm:flex">
           <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
             <path
               d="M7 3h3l2 5-2 1c1 3 3 5 6 6l1-2 5 2v3c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z"
@@ -32,7 +32,7 @@ function TopBar() {
           />
         </span>
 
-        <span className="flex items-center gap-2 rounded-full border border-white/70 px-5 py-1.5 leading-none">
+        <span className="flex items-center gap-2 rounded-full border border-white/70 px-3 py-1.5 leading-none sm:px-5">
           <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
             <path
               d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"
@@ -53,18 +53,49 @@ function TopBar() {
   );
 }
 
+function AuthActions({ openAuth, compact = false }) {
+  return (
+    <div className={`flex items-center ${compact ? "gap-2" : "gap-3"}`}>
+      <button
+        type="button"
+        onClick={() => openAuth("login")}
+        className={`font-semibold text-[#D66557] transition hover:opacity-80 ${
+          compact ? "text-[13px]" : "text-sm"
+        }`}
+      >
+        Login
+      </button>
+
+      <span className="text-slate-300">/</span>
+
+      <button
+        type="button"
+        onClick={() => openAuth("signup")}
+        className={`font-semibold text-[#D66557] transition hover:opacity-80 ${
+          compact ? "text-[13px]" : "text-sm"
+        }`}
+      >
+        Signup
+      </button>
+    </div>
+  );
+}
+
 function CompactHeader({ openAuth }) {
   return (
     <header className="sticky top-0 z-50 bg-white">
       <div className="border-b border-black/5">
-        <Container className="flex h-16 items-center justify-between">
+        <Container className="flex h-16 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={IMG.brand.logoFull} alt="Real Estate" className="h-9 w-auto" draggable={false} />
+            <img
+              src={IMG.brand.logoFull}
+              alt="Real Estate"
+              className="h-8 w-auto sm:h-9"
+              draggable={false}
+            />
           </Link>
 
-          <button onClick={openAuth} className="text-sm font-semibold text-[#D66557]">
-            Login <span className="text-slate-400">/</span> Signup
-          </button>
+          <AuthActions openAuth={openAuth} compact />
         </Container>
       </div>
     </header>
@@ -89,11 +120,15 @@ export default function Navbar() {
       <div className="border-b border-black/5">
         <Container className="flex h-16 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={IMG.brand.logoFull} alt="Real Estate" className="h-9 w-auto" draggable={false} />
+            <img
+              src={IMG.brand.logoFull}
+              alt="Real Estate"
+              className="h-8 w-auto sm:h-9"
+              draggable={false}
+            />
           </Link>
 
-          {/* Menus ab static rahenge, search page par navigate nahi karenge */}
-          <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary navigation">
             {NAV_LINKS.map((l) => (
               <span
                 key={l.label}
@@ -105,11 +140,15 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button onClick={openAuth} className="hidden text-sm font-semibold text-[#D66557] md:inline">
-              Login <span className="text-slate-400">/</span> Signup
-            </button>
+            <div className="hidden md:block">
+              <AuthActions openAuth={openAuth} />
+            </div>
 
-            <IconButton onClick={() => setOpen(true)} className="md:hidden" ariaLabel="Open menu">
+            <IconButton
+              onClick={() => setOpen(true)}
+              className="md:hidden"
+              ariaLabel="Open menu"
+            >
               ☰
             </IconButton>
           </div>

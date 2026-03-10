@@ -12,25 +12,25 @@ export default function MobileNavDrawer({ open, onClose }) {
     function onEsc(e) {
       if (e.key === "Escape") onClose();
     }
+
     if (open) window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
   }, [open, onClose]);
 
   return (
     <div
-      className={`fixed inset-0 z-60 ${open ? "" : "pointer-events-none"}`}
+      className={`fixed inset-0 z-[60] ${open ? "" : "pointer-events-none"}`}
       aria-hidden={!open}
     >
-      {/* overlay */}
       <div
         onClick={onClose}
         className={`absolute inset-0 bg-black/40 transition ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
-      {/* panel */}
+
       <div
-        className={`absolute right-0 top-0 h-full w-[86%] max-w-sm bg-white shadow-xl transition-transform ${
+        className={`absolute right-0 top-0 h-full w-[88%] max-w-sm bg-white shadow-xl transition-transform ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -42,15 +42,29 @@ export default function MobileNavDrawer({ open, onClose }) {
         </div>
 
         <div className="p-4">
-          <button
-            onClick={() => {
-              onClose();
-              openAuth();
-            }}
-            className="w-full rounded-xl bg-[#D66557] px-4 py-3 text-sm font-semibold text-white"
-          >
-            Login / Signup
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                openAuth("login");
+              }}
+              className="rounded-xl border border-[#D66557] px-4 py-3 text-sm font-semibold text-[#D66557]"
+            >
+              Login
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                openAuth("signup");
+              }}
+              className="rounded-xl bg-[#D66557] px-4 py-3 text-sm font-semibold text-white"
+            >
+              Signup
+            </button>
+          </div>
 
           <div className="mt-6 space-y-3">
             {NAV_LINKS.map((l) => (
