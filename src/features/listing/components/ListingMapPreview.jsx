@@ -4,7 +4,7 @@ export default function ListingMapPreview({ map }) {
   return (
     <div className="w-full overflow-hidden rounded-xl border border-black/5">
       <div className="relative w-full bg-slate-100">
-        <div className="aspect-[16/7] w-full">
+        <div className="aspect-16/7 w-full">
           <iframe
             title={map.title || "Map"}
             src={map.embedUrl}

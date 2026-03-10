@@ -66,7 +66,7 @@ function MapPopupCard({ data, accent = "#D66557", onClose }) {
   if (!data) return null;
 
   return (
-    <div className="w-[360px] rounded-2xl bg-white shadow-2xl ring-1 ring-black/10">
+    <div className="w-90 rounded-2xl bg-white shadow-2xl ring-1 ring-black/10">
       <div className="flex items-center justify-between px-4 pt-4">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-100 ring-1 ring-slate-200">
@@ -142,7 +142,7 @@ export default function MapCanvas({ map, items = [], accent = "#D66557" }) {
     IMG.search?.map ||
     "/images/search/map.png";
 
-  // ✅ use provided markers if exist, else generate from items
+  //  use provided markers if exist, else generate from items
   const markers = useMemo(() => {
     if (map?.markers?.length) return map.markers;
 
@@ -170,7 +170,7 @@ export default function MapCanvas({ map, items = [], accent = "#D66557" }) {
   return (
     <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
       <div
-        className="relative h-[520px] w-full bg-cover bg-center"
+        className="relative h-130 w-full bg-cover bg-center"
         style={{ backgroundImage: `url(${bg})` }}
         onClick={() => setActiveId(null)}
       >
@@ -192,7 +192,7 @@ export default function MapCanvas({ map, items = [], accent = "#D66557" }) {
           </button>
         ))}
 
-        {/* ✅ second UI: popup opens on marker click */}
+        {/* second UI: popup opens on marker click */}
         {activeMarker ? (
           <div
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"

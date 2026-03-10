@@ -40,7 +40,7 @@ export default function ListingRow({ title, subtitle, items }) {
       </div>
 
       <div className="-mx-4 flex overflow-x-auto px-4 pb-2 md:mx-0 md:overflow-visible md:px-0">
-        <div className="flex gap-5 md:grid md:w-full md:[grid-template-columns:repeat(4,minmax(0,260px))] md:justify-between">
+        <div className="flex gap-5 md:grid md:w-full md:grid-cols-[repeat(4,minmax(0,260px))] md:justify-between">
           {items.map((it) => (
             <ListingCard
               key={it.id}

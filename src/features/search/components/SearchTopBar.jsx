@@ -52,7 +52,7 @@ export default function SearchTopBar({
   onOpenFilters,
 }) {
   return (
-    <div className="mx-auto w-full max-w-[760px]">
+    <div className="mx-auto w-full max-w-190">
       <div className="grid grid-cols-1 gap-2.5 md:grid-cols-[180px_1fr_44px] md:items-center">
         {/* Country */}
         <div className="flex h-11 items-center gap-2 rounded-[10px] border border-[#D8DEE7] bg-white px-3">
@@ -104,7 +104,7 @@ export default function SearchTopBar({
           style={{ backgroundColor: accent }}
           aria-label="Open filters"
         >
-          <Icon name="filters" className="h-[18px] w-[18px]" />
+          <Icon name="filters" className="h-4.5 w-4.5" />
         </button>
       </div>
     </div>

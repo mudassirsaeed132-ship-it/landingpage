@@ -38,7 +38,7 @@ export const IMG = {
     map: `${BASE}images/search/map.png`,
   },
 
-  // ✅ listing detail page images
+  //  listing detail page images
   listingDetail: {
     agent: {
       sarah: `${BASE}images/listing-detail/agent/agent-sarah.png`,

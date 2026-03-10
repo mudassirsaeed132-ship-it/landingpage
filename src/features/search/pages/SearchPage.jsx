@@ -168,7 +168,7 @@ export default function SearchPage() {
                 Compare Properties
               </button>
 
-              <div className="inline-flex h-10 overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+              <div className="inline-flex h-10 overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <button
                   type="button"
                   aria-label="Grid view"
@@ -180,7 +180,7 @@ export default function SearchPage() {
                   <img
                     src={VIEW_ICONS.grid}
                     alt="Grid view"
-                    className="h-[18px] w-[18px] object-contain"
+                    className="h-4.5 w-4.5 object-contain"
                     loading="lazy"
                   />
                 </button>
@@ -196,7 +196,7 @@ export default function SearchPage() {
                   <img
                     src={VIEW_ICONS.map}
                     alt="Map view"
-                    className="h-[18px] w-[18px] object-contain"
+                    className="h-4.5 w-4.5 object-contain"
                     loading="lazy"
                   />
                 </button>
@@ -218,7 +218,7 @@ export default function SearchPage() {
                       key={idx}
                       className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
                     >
-                      <div className="aspect-[16/10] w-full animate-pulse bg-slate-100" />
+                      <div className="aspect-16/10 w-full animate-pulse bg-slate-100" />
                       <div className="px-4 py-3">
                         <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
                         <div className="mt-2 h-3 w-2/3 animate-pulse rounded bg-slate-100" />

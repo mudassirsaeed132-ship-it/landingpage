@@ -57,7 +57,7 @@ function Dropdown({ open, options, value, onSelect, accent }) {
   if (!open) return null;
 
   return (
-    <div className="absolute left-0 top-12 z-[80] min-w-[176px] overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
+    <div className="absolute left-0 top-12 z-80 min-w-44 overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
       {options.map((o) => (
         <button
           key={o.label}
@@ -148,7 +148,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
   ];
 
   return (
-    <div ref={wrapRef} className="relative z-[50]">
+    <div ref={wrapRef} className="relative z-50">
       <div className="flex flex-wrap items-center gap-3 overflow-visible">
         {chips.map((c) => (
           <div key={c.id} className="relative">

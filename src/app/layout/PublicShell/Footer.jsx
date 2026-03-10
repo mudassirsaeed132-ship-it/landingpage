@@ -37,7 +37,7 @@ export default function Footer() {
                 Find amazing deals on the go.
               </p>
 
-              <h3 className="mt-3 text-[24px] font-semibold leading-[1.25] text-slate-900">
+              <h3 className="mt-3 text-[24px] font-semibold leading-tight text-slate-900">
                 Download Real estate app now!
               </h3>
             </div>

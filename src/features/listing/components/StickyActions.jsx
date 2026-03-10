@@ -5,7 +5,7 @@ export default function StickyActions({ agent, onChat, onBook }) {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 lg:hidden">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-white via-white/95 to-transparent" />
 
       <div className="pointer-events-auto mx-auto w-full max-w-3xl px-3 pb-[max(12px,env(safe-area-inset-bottom))] sm:px-4">
         <div className="rounded-t-2xl border border-black/10 border-b-0 bg-white/95 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur sm:p-4">

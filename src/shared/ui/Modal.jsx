@@ -16,7 +16,7 @@ export default function Modal({ open, onClose, children }) {
   if (!open) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[70]">
+    <div className="fixed inset-0 z-70">
       <div className="absolute inset-0 bg-black/45" onClick={onClose} />
       <div className="absolute inset-0 grid place-items-center p-4">
         {children}

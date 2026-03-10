@@ -46,7 +46,7 @@ export const NAV_LINKS = [
   { label: "Short- Stay", to: "/search" },
 ];
 
-// ✅ Footer columns (Cities removed)
+//  Footer columns (Cities removed)
 export const FOOTER_LINKS = [
   { title: "Popular Categories", links: ["Rent", "Buy", "Land", "Commercial"] },
   { title: "Trending Searches", links: ["Land", "Short-stay", "Shop", "flats"] },
@@ -54,7 +54,7 @@ export const FOOTER_LINKS = [
   { title: "OLX", links: ["Help", "Sitemap", "Terms of use", "Privacy Policy"] },
 ];
 
-// ✅ Follow Us links (config-driven)
+//  Follow Us links (config-driven)
 export const SOCIAL_LINKS = [
   { key: "x", label: "X", href: "#" },
   { key: "facebook", label: "Facebook", href: "#" },
@@ -62,17 +62,17 @@ export const SOCIAL_LINKS = [
   { key: "instagram", label: "Instagram", href: "#" },
 ];
 
-/** ✅ Theme tokens (optional but best practice) */
+/**  Theme tokens (optional but best practice) */
 export const THEME = {
   accent: "#D86A60",
 };
 
-/** ✅ One consistent container width across pages */
+/**  One consistent container width across pages */
 export const LAYOUT = {
   container: "mx-auto w-full max-w-6xl px-4",
 };
 
-/** ✅ Search page content (UI labels + chips + mock-friendly defaults)
+/**  Search page content (UI labels + chips + mock-friendly defaults)
  *  Note: Actual results will come from your hook/service (mock now, API later).
  */
 export const SEARCH = {

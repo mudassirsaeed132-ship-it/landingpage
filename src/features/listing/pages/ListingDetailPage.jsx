@@ -110,11 +110,11 @@ export default function ListingDetailPage() {
         {isLoading ? (
           <div className="mt-6 grid gap-6 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <div className="h-[220px] rounded-xl bg-black/5" />
-              <div className="mt-4 h-[420px] rounded-xl bg-black/5" />
+              <div className="h-55 rounded-xl bg-black/5" />
+              <div className="mt-4 h-105 rounded-xl bg-black/5" />
             </div>
             <div className="lg:col-span-4">
-              <div className="h-[520px] rounded-xl bg-black/5" />
+              <div className="h-130 rounded-xl bg-black/5" />
             </div>
           </div>
         ) : error ? (

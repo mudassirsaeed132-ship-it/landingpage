@@ -109,7 +109,7 @@ export default function AuthModal({ open, isOpen, onClose, triggerRef }) {
       {/* Panel */}
       <div
         ref={panelRef}
-        className="relative w-full max-w-[720px] overflow-hidden rounded-2xl bg-white shadow-xl"
+        className="relative w-full max-w-180 overflow-hidden rounded-2xl bg-white shadow-xl"
       >
         <div className="px-6 py-10 sm:px-10 sm:py-12 text-center">
           <BrandMark />

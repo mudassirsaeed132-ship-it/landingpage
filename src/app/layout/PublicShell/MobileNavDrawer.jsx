@@ -18,7 +18,7 @@ export default function MobileNavDrawer({ open, onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[60] ${open ? "" : "pointer-events-none"}`}
+      className={`fixed inset-0 z-60 ${open ? "" : "pointer-events-none"}`}
       aria-hidden={!open}
     >
       {/* overlay */}

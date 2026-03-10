@@ -32,7 +32,7 @@ function TopBar() {
           />
         </span>
 
-        <span className="flex items-center gap-2 rounded-full border border-white/70 px-5 py-[6px] leading-none">
+        <span className="flex items-center gap-2 rounded-full border border-white/70 px-5 py-1.5 leading-none">
           <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
             <path
               d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"

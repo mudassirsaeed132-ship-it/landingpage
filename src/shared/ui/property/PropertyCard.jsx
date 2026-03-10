@@ -136,14 +136,14 @@ export default function PropertyCard({
   return (
     <article
       className={cn(
-        "w-full max-w-[260px] overflow-hidden rounded-2xl bg-white",
+        "w-full max-w-65 overflow-hidden rounded-2xl bg-white",
         "ring-1 ring-black/10 shadow-sm",
         className
       )}
     >
       <div
         className={cn(
-          "relative aspect-[16/9] w-full overflow-hidden",
+          "relative aspect-video w-full overflow-hidden",
           searchImageClickable ? "cursor-pointer" : ""
         )}
         onClick={searchImageClickable ? onDetails : undefined}

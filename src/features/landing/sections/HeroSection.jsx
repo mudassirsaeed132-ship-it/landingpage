@@ -56,7 +56,7 @@ export default function HeroSection() {
     >
       <div className="absolute inset-0 bg-black/45" />
 
-      <div className="relative mx-auto flex min-h-[640px] max-w-6xl flex-col items-center justify-center px-4 text-center">
+      <div className="relative mx-auto flex min-h-160 max-w-6xl flex-col items-center justify-center px-4 text-center">
         <h1 className="text-[56px] font-extrabold leading-[1.05] tracking-tight text-white">
           {hero.title}
         </h1>
