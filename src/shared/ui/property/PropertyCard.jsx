@@ -136,8 +136,8 @@ export default function PropertyCard({
   return (
     <article
       className={cn(
-        "w-full max-w-65 overflow-hidden rounded-2xl bg-white",
-        "ring-1 ring-black/10 shadow-sm",
+        "overflow-hidden rounded-2xl bg-white ring-1 ring-black/10 shadow-sm",
+        variant === "search" ? "w-full max-w-none" : "w-full max-w-65",
         className
       )}
     >
@@ -221,11 +221,11 @@ export default function PropertyCard({
 
         <div className="mt-2.5 flex items-center gap-2.5">
           <IconPin className="h-5 w-5 shrink-0" stroke={iconBlack} />
-          <p className={cn("text-[13px] font-medium", metaText)}>{item.location}</p>
+          <p className={cn("min-w-0 text-[13px] font-medium", metaText)}>{item.location}</p>
         </div>
 
         <div className={cn("mt-3 flex items-center gap-6", metaText)}>
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <MaskIcon
               src="/images/icons/bedrooms.svg"
               color={iconBlack}
@@ -234,7 +234,7 @@ export default function PropertyCard({
             <span className="text-[12px] font-medium">{rooms}</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <MaskIcon
               src="/images/icons/size.svg"
               color={iconBlack}
@@ -247,12 +247,12 @@ export default function PropertyCard({
         <div className="mt-3.5 h-px w-full bg-slate-200" />
 
         {variant === "landing" ? (
-          <div className="mt-3.5 flex items-center justify-between">
+          <div className="mt-3.5 flex items-center justify-between gap-3">
             <Price value={item.price} />
             <button
               type="button"
               onClick={onDetails}
-              className="text-[12px] font-medium text-[#D66557] hover:opacity-90"
+              className="shrink-0 text-[12px] font-medium text-[#D66557] hover:opacity-90"
             >
               {detailsLabel}
             </button>

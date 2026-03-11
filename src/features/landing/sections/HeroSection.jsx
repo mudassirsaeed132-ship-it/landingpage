@@ -46,28 +46,63 @@ export default function HeroSection() {
   };
 
   return (
-    <section
-      className="relative w-full bg-no-repeat"
-      style={{
-        backgroundImage: `url(${IMG.hero.home})`,
-        backgroundSize: "110%",
-        backgroundPosition: "center 55%",
-      }}
-    >
+    <section className="relative isolate w-full overflow-hidden">
+      <img
+        src={IMG.hero.home}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        draggable={false}
+      />
+
       <div className="absolute inset-0 bg-black/45" />
 
-      <div className="relative mx-auto flex min-h-160 max-w-6xl flex-col items-center justify-center px-4 text-center">
-        <h1 className="text-[56px] font-extrabold leading-[1.05] tracking-tight text-white">
+      <div className="relative mx-auto flex min-h-[560px] max-w-6xl flex-col items-center justify-center px-4 pb-10 pt-24 text-center sm:min-h-[620px] sm:px-6 md:min-h-[700px] md:px-8">
+        <h1 className="max-w-[290px] text-[42px] font-extrabold leading-[0.95] tracking-tight text-white sm:max-w-[520px] sm:text-[56px] md:max-w-[760px] md:text-[64px]">
           {hero.title}
         </h1>
 
-        <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-white/85">
+        <p className="mt-4 max-w-[320px] text-[15px] leading-7 text-white/85 sm:max-w-2xl sm:text-[16px] md:mt-5">
           {hero.subtitle}
         </p>
 
-        <div className="mt-10 w-full max-w-4xl rounded-[18px] bg-white/95 p-2 shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
-          <div className="flex items-center">
-            <div className="flex flex-1 items-center gap-3 rounded-[14px] bg-white px-4 py-3">
+        <div className="mt-8 w-full max-w-[340px] rounded-[22px] bg-white/95 p-2 shadow-[0_12px_30px_rgba(0,0,0,0.18)] sm:mt-10 sm:max-w-[720px] md:max-w-4xl">
+          {/* Mobile / small screens */}
+          <div className="md:hidden">
+            <div className="flex items-center gap-2">
+              <div className="flex min-w-0 flex-1 items-center gap-3 rounded-[16px] bg-white px-4 py-3.5">
+                <IconPin className="h-5 w-5 shrink-0" />
+                <input
+                  value={locationValue}
+                  onChange={(e) => setLocationValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="w-full min-w-0 bg-transparent text-[14px] text-slate-900 placeholder:text-slate-400 outline-none"
+                  placeholder={hero.placeholders.location}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={goToSearch}
+                className="shrink-0 rounded-[16px] bg-[#D66557] px-6 py-3.5 text-[14px] font-semibold text-white shadow-sm transition hover:brightness-95"
+              >
+                {hero.cta.search}
+              </button>
+            </div>
+
+            <div className="mt-2 flex items-center rounded-[16px] bg-white px-4 py-3.5">
+              <input
+                value={priceValue}
+                onChange={(e) => setPriceValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-400 outline-none"
+                placeholder={hero.placeholders.price}
+              />
+            </div>
+          </div>
+
+          {/* Desktop / tablet */}
+          <div className="hidden items-center md:flex">
+            <div className="flex flex-1 items-center gap-3 rounded-[16px] bg-white px-5 py-4">
               <IconPin className="h-5 w-5 shrink-0" />
               <input
                 value={locationValue}
@@ -78,9 +113,9 @@ export default function HeroSection() {
               />
             </div>
 
-            <div className="mx-3 hidden h-9 w-px bg-slate-200 md:block" />
+            <div className="mx-3 h-10 w-px bg-slate-200" />
 
-            <div className="hidden flex-1 items-center rounded-[14px] bg-white px-4 py-3 md:flex">
+            <div className="flex flex-1 items-center rounded-[16px] bg-white px-5 py-4">
               <input
                 value={priceValue}
                 onChange={(e) => setPriceValue(e.target.value)}
@@ -93,26 +128,14 @@ export default function HeroSection() {
             <button
               type="button"
               onClick={goToSearch}
-              className="ml-3 rounded-[14px] bg-[#D66557] px-10 py-3 text-sm font-semibold text-white"
+              className="ml-3 min-w-[128px] rounded-[16px] bg-[#D66557] px-10 py-4 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
             >
               {hero.cta.search}
             </button>
           </div>
-
-          <div className="mt-2 md:hidden">
-            <div className="flex items-center rounded-[14px] bg-white px-4 py-3">
-              <input
-                value={priceValue}
-                onChange={(e) => setPriceValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 outline-none"
-                placeholder={hero.placeholders.price}
-              />
-            </div>
-          </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-10 text-[14px] font-medium text-white/85">
+        <div className="mt-6 flex max-w-[340px] flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-white/85 sm:max-w-none sm:gap-x-10 sm:text-[14px]">
           {hero.trust.map((t) => (
             <span key={t}>{t}</span>
           ))}

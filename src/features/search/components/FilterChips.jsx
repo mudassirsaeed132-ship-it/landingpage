@@ -40,34 +40,41 @@ function ChipButton({ active, label, accent, onClick }) {
       type="button"
       onClick={onClick}
       className={[
-        "inline-flex h-10 items-center gap-2 rounded-full px-5 whitespace-nowrap border text-[13px] font-medium transition",
+        "inline-flex h-10 w-full items-center justify-between gap-2 rounded-full border px-4 text-[13px] font-medium transition sm:w-auto sm:px-5",
         active
           ? "border-transparent text-white"
           : "border-[#D8DEE7] bg-white text-slate-700 hover:bg-slate-50",
       ].join(" ")}
       style={active ? { backgroundColor: accent, borderColor: accent } : undefined}
     >
-      <span>{label}</span>
-      <ChevronDown className={["h-4 w-4", active ? "text-white" : "text-slate-500"].join(" ")} />
+      <span className="min-w-0 truncate">{label}</span>
+      <ChevronDown className={["h-4 w-4 shrink-0", active ? "text-white" : "text-slate-500"].join(" ")} />
     </button>
   );
 }
 
-function Dropdown({ open, options, value, onSelect, accent }) {
+function Dropdown({ open, options, value, onSelect, accent, align = "left" }) {
   if (!open) return null;
 
   return (
-    <div className="absolute left-0 top-12 z-80 min-w-44 overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
+    <div
+      className={[
+        "absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[80] overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]",
+        "sm:left-auto sm:right-auto sm:w-[14rem]",
+        align === "right" ? "sm:right-0" : "sm:left-0",
+      ].join(" ")}
+    >
       {options.map((o) => (
         <button
           key={o.label}
           type="button"
           onClick={() => onSelect(o.value)}
-          className="flex w-full items-center justify-between px-3 py-2.5 text-left text-[13px] font-medium text-slate-700 hover:bg-slate-50"
+          className="flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left text-[13px] font-medium text-slate-700 hover:bg-slate-50"
         >
-          <span>{o.label}</span>
+          <span className="min-w-0 truncate">{o.label}</span>
+
           {String(o.value) === String(value) ? (
-            <span className="text-[11px]" style={{ color: accent }}>
+            <span className="shrink-0 text-[11px]" style={{ color: accent }}>
               ✓
             </span>
           ) : null}
@@ -83,7 +90,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
 
   const purposeLabel = value.purpose === "rent" ? "For Rent" : "For Sale";
   const roomsLabel = value.roomsMin <= 1 ? "Single room" : `${value.roomsMin}+ rooms`;
-  const bathsLabel = `${value.bathsMin} bathroom`;
+  const bathsLabel = value.bathsMin === 1 ? "1 bathroom" : `${value.bathsMin} bathrooms`;
   const balconyLabel = value.balcony ? "Balcony" : "No Balcony";
 
   const chips = [
@@ -100,7 +107,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
     },
     {
       id: "new",
-      active: false,
+      active: Boolean(value.isNew),
       label: "New",
       value: value.isNew,
       options: [
@@ -111,7 +118,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
     },
     {
       id: "rooms",
-      active: false,
+      active: value.roomsMin > 1,
       label: roomsLabel,
       value: value.roomsMin,
       options: [
@@ -124,7 +131,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
     },
     {
       id: "baths",
-      active: false,
+      active: value.bathsMin > 1,
       label: bathsLabel,
       value: value.bathsMin,
       options: [
@@ -136,7 +143,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
     },
     {
       id: "balcony",
-      active: false,
+      active: Boolean(value.balcony),
       label: balconyLabel,
       value: value.balcony,
       options: [
@@ -148,21 +155,26 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
   ];
 
   return (
-    <div ref={wrapRef} className="relative z-50">
-      <div className="flex flex-wrap items-center gap-3 overflow-visible">
-        {chips.map((c) => (
-          <div key={c.id} className="relative">
+    <div ref={wrapRef} className="relative z-40">
+      <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-3 md:grid md:grid-cols-2 lg:flex">
+        {chips.map((c, index) => (
+          <div
+            key={c.id}
+            className="relative min-w-0 sm:min-w-[170px] md:min-w-0 lg:min-w-fit"
+          >
             <ChipButton
               active={c.active}
               label={c.label}
               accent={accent}
               onClick={() => setOpenId((prev) => (prev === c.id ? null : c.id))}
             />
+
             <Dropdown
               open={openId === c.id}
               options={c.options}
               value={c.value}
               accent={accent}
+              align={index >= chips.length - 2 ? "right" : "left"}
               onSelect={(v) => {
                 c.apply(v);
                 setOpenId(null);

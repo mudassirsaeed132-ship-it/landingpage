@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { X } from "lucide-react";
 import { cn } from "../../../shared/lib/cn";
 
 import authLogo from "../../../assets/images/auth/auth-logo.png";
@@ -14,22 +15,28 @@ function buildUrl(base, path) {
 
 function RoleCard({ selected, title, imageSrc, onClick }) {
   return (
-    <button type="button" onClick={onClick} className="w-full">
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full outline-none"
+      aria-pressed={selected}
+    >
       <div
         className={cn(
-          "mx-auto flex h-[180px] w-full max-w-[220px] flex-col items-center justify-center gap-3 rounded-[18px] bg-white transition-all duration-200",
+          "mx-auto flex h-[170px] w-full max-w-[220px] flex-col items-center justify-center gap-3 rounded-[18px] bg-white px-4 transition-all duration-200 sm:h-[182px] sm:max-w-[230px]",
           selected
-            ? "border-2 border-[#D66355] shadow-[0_10px_24px_rgba(214,99,85,0.12)]"
-            : "border border-[#D1D5DB]"
+            ? "border-2 border-[#D66355] shadow-[0_12px_28px_rgba(214,99,85,0.14)]"
+            : "border border-[#D7DCE3] hover:border-[#D66355]/60"
         )}
       >
         <img
           src={imageSrc}
           alt=""
-          className="h-[70px] w-[70px] object-contain sm:h-[76px] sm:w-[76px]"
+          className="h-[68px] w-[68px] object-contain sm:h-[76px] sm:w-[76px]"
           draggable={false}
         />
-        <div className="text-center text-[12px] font-semibold text-[#111827] sm:text-[13px]">
+
+        <div className="text-center text-[13px] font-semibold leading-5 text-[#111827] sm:text-[14px]">
           {title}
         </div>
       </div>
@@ -125,41 +132,38 @@ export default function AuthModal({
     if (last && typeof last.focus === "function") last.focus();
   }, [shown, triggerRef]);
 
-  const getRoleUrls = (role) => {
+  const getRoleTarget = (role) => {
     if (role === "buyer") {
       return {
-        primary: intent === "signup" ? buyerSignupUrl : buyerLoginUrl,
+        url: intent === "signup" ? buyerSignupUrl : buyerLoginUrl,
         hasAccess: hasBuyerUrl,
       };
     }
 
     if (role === "seller") {
       return {
-        primary: intent === "signup" ? sellerSignupUrl : sellerLoginUrl,
+        url: intent === "signup" ? sellerSignupUrl : sellerLoginUrl,
         hasAccess: hasSellerUrl,
       };
     }
 
-    return {
-      primary: "",
-      hasAccess: false,
-    };
+    return { url: "", hasAccess: false };
   };
 
   const handleContinue = () => {
     if (!selectedRole) return;
 
-    const target = getRoleUrls(selectedRole);
-    if (!target.hasAccess || !target.primary) return;
+    const target = getRoleTarget(selectedRole);
+    if (!target.hasAccess || !target.url) return;
 
-    window.location.href = target.primary;
+    window.location.href = target.url;
   };
 
   if (!shown || !portalTarget) return null;
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[70] grid place-items-center px-4"
+      className="fixed inset-0 z-[70] grid place-items-center px-4 py-6 sm:px-6"
       role="dialog"
       aria-modal="true"
       aria-label="Choose your role"
@@ -167,34 +171,34 @@ export default function AuthModal({
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" />
 
       <div
         ref={panelRef}
-        className="relative w-full max-w-[580px] overflow-hidden rounded-[24px] bg-white shadow-2xl"
+        className="relative w-full max-w-[560px] overflow-hidden rounded-[24px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:max-w-[600px]"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 sm:right-4 sm:top-4"
         >
-          ×
+          <X size={18} />
         </button>
 
-        <div className="px-5 py-6 text-center sm:px-8 sm:py-8">
+        <div className="px-5 pb-6 pt-5 text-center sm:px-8 sm:pb-8 sm:pt-6">
           <img
             src={authLogo}
             alt="Real Estate"
-            className="mx-auto h-10 w-auto sm:h-11"
+            className="mx-auto h-10 w-auto sm:h-12"
             draggable={false}
           />
 
-          <h2 className="mt-5 text-[24px] font-semibold leading-tight text-[#D66355] sm:text-[28px]">
+          <h2 className="mt-4 text-[24px] font-semibold leading-tight text-[#D66355] sm:mt-5 sm:text-[30px]">
             Choose your role Below
           </h2>
 
-          <p className="mt-2 text-[14px] leading-6 text-slate-500 sm:text-[15px]">
+          <p className="mx-auto mt-2 max-w-[420px] text-[14px] leading-6 text-slate-500 sm:text-[15px]">
             Select your portal to continue with the right flow.
           </p>
 
@@ -209,27 +213,23 @@ export default function AuthModal({
             </div>
           ) : null}
 
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-            <div className="w-full max-w-[220px]">
-              <RoleCard
-                selected={selectedRole === "buyer"}
-                title="I am a Buyer/ Renter"
-                imageSrc={buyerImg}
-                onClick={() => setSelectedRole("buyer")}
-              />
-            </div>
+          <div className="mt-7 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5">
+            <RoleCard
+              selected={selectedRole === "buyer"}
+              title="I am a Buyer/ Renter"
+              imageSrc={buyerImg}
+              onClick={() => setSelectedRole("buyer")}
+            />
 
-            <div className="w-full max-w-[220px]">
-              <RoleCard
-                selected={selectedRole === "seller"}
-                title="I am a Seller/ Owner"
-                imageSrc={sellerImg}
-                onClick={() => setSelectedRole("seller")}
-              />
-            </div>
+            <RoleCard
+              selected={selectedRole === "seller"}
+              title="I am a Seller/ Owner"
+              imageSrc={sellerImg}
+              onClick={() => setSelectedRole("seller")}
+            />
           </div>
 
-          <div className="mx-auto mt-8 w-full max-w-[360px]">
+          <div className="mx-auto mt-7 w-full max-w-[360px] sm:mt-8">
             <button
               type="button"
               onClick={handleContinue}
@@ -238,7 +238,7 @@ export default function AuthModal({
                 (selectedRole === "buyer" && !hasBuyerUrl) ||
                 (selectedRole === "seller" && !hasSellerUrl)
               }
-              className="h-12 w-full rounded-full bg-[#D7665A] px-6 text-[15px] font-semibold text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-12 w-full rounded-full bg-[#D7665A] px-6 text-[15px] font-semibold text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50 sm:h-[50px] sm:text-[16px]"
             >
               {intent === "signup" ? "Continue to Sign up" : "Continue to Login"}
             </button>

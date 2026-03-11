@@ -36,6 +36,20 @@ function Icon({ name, className }) {
     );
   }
 
+  if (name === "chevron") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className={className}>
+        <path
+          d="M7 10l5 5 5-5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className={className}>
       <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -51,48 +65,66 @@ export default function SearchTopBar({
   onChange,
   onOpenFilters,
 }) {
-  return (
-    <div className="mx-auto w-full max-w-190">
-      <div className="grid grid-cols-1 gap-2.5 md:grid-cols-[180px_1fr_44px] md:items-center">
-        {/* Country */}
-        <div className="flex h-11 items-center gap-2 rounded-[10px] border border-[#D8DEE7] bg-white px-3">
-          <Icon name="pin" className="h-4 w-4 shrink-0 text-[#D66557]" />
-          <select
-            value={value.country}
-            onChange={(e) => onChange({ country: e.target.value })}
-            className="h-full w-full bg-transparent text-[14px] font-medium text-slate-700 outline-none"
-          >
-            {(countries || ["Pakistan"]).map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
+  const countryOptions = countries || ["Pakistan"];
+  const typeOptions = types || ["House for Sale"];
 
-        {/* Type + Search attached */}
-        <div className="flex min-w-0 items-stretch">
-          <div className="flex h-11 min-w-0 flex-1 items-center rounded-l-[10px] rounded-r-none border border-r-0 border-[#D8DEE7] bg-white px-3">
+  return (
+    <div className="mx-auto w-full max-w-[940px]">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-[220px_1fr] lg:grid-cols-[220px_1fr_44px] lg:items-center">
+        {/* Country */}
+        <div className="relative">
+          <div className="flex h-12 items-center rounded-[14px] border border-[#D8DEE7] bg-white pl-3 pr-10">
+            <Icon name="pin" className="h-4 w-4 shrink-0 text-[#D66557]" />
+
             <select
-              value={value.type}
-              onChange={(e) => onChange({ type: e.target.value })}
-              className="h-full w-full appearance-none bg-transparent text-[14px] font-medium text-slate-700 outline-none"
+              value={value.country}
+              onChange={(e) => onChange({ country: e.target.value })}
+              className="h-full w-full appearance-none bg-transparent pl-3 pr-2 text-[14px] font-medium text-slate-700 outline-none"
             >
-              {(types || ["House for Sale"]).map((t) => (
-                <option key={t} value={t}>
-                  {t}
+              {countryOptions.map((c) => (
+                <option key={c} value={c}>
+                  {c}
                 </option>
               ))}
             </select>
           </div>
 
+          <Icon
+            name="chevron"
+            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-600"
+          />
+        </div>
+
+        {/* Type + Search */}
+        <div className="flex min-w-0 items-stretch">
+          <div className="relative min-w-0 flex-1">
+            <div className="flex h-12 min-w-0 items-center rounded-l-[14px] border border-r-0 border-[#D8DEE7] bg-white pl-4 pr-10">
+              <select
+                value={value.type}
+                onChange={(e) => onChange({ type: e.target.value })}
+                className="h-full w-full appearance-none bg-transparent pr-2 text-[14px] font-medium text-slate-700 outline-none"
+              >
+                {typeOptions.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <Icon
+              name="chevron"
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-600"
+            />
+          </div>
+
           <button
             type="button"
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-l-none rounded-r-[10px] px-4 text-[14px] font-semibold text-white"
+            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-l-none rounded-r-[14px] px-4 text-[14px] font-semibold text-white transition hover:brightness-95 sm:min-w-[112px] sm:px-5"
             style={{ backgroundColor: accent }}
           >
             <Icon name="search" className="h-4 w-4" />
-            Search
+            <span>Search</span>
           </button>
         </div>
 
@@ -100,7 +132,7 @@ export default function SearchTopBar({
         <button
           type="button"
           onClick={onOpenFilters}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-[10px] text-white"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-[14px] text-white transition hover:brightness-95 md:col-span-2 md:justify-self-end lg:col-span-1 lg:justify-self-auto"
           style={{ backgroundColor: accent }}
           aria-label="Open filters"
         >
