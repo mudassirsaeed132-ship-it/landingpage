@@ -103,7 +103,7 @@ export default function FiltersModal({ open, onClose, accent = "#D66557", value,
 
       <div className="fixed inset-0 flex items-end justify-center p-2 sm:items-center sm:p-4 md:p-6">
         <div
-          className="relative flex h-[calc(100dvh-1rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[24px] bg-white shadow-2xl ring-1 ring-black/5 sm:h-auto sm:max-h-[88vh]"
+          className="relative flex h-[calc(100dvh-1rem)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 sm:h-auto sm:max-h-[88vh]"
           role="dialog"
           aria-modal="true"
         >

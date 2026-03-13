@@ -200,7 +200,7 @@ export default function MapCanvas({ map, items = [], accent = "#D66557" }) {
           >
             <MapPopupCard data={popupData} accent={accent} onClose={() => setActiveId(null)} />
           </div>
-        ) : null}
+      ) : null}
       </div>
     </div>
   );

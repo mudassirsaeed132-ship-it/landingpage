@@ -59,8 +59,8 @@ function Dropdown({ open, options, value, onSelect, accent, align = "left" }) {
   return (
     <div
       className={[
-        "absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[80] overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]",
-        "sm:left-auto sm:right-auto sm:w-[14rem]",
+        "absolute left-0 right-0 top-[calc(100%+0.5rem)] z-80 overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]",
+        "sm:left-auto sm:right-auto sm:w-56",
         align === "right" ? "sm:right-0" : "sm:left-0",
       ].join(" ")}
     >
@@ -160,7 +160,7 @@ export default function FilterChips({ accent = "#D66557", value, onChange }) {
         {chips.map((c, index) => (
           <div
             key={c.id}
-            className="relative min-w-0 sm:min-w-[170px] md:min-w-0 lg:min-w-fit"
+            className="relative min-w-0 sm:min-w-42.5 md:min-w-0 lg:min-w-fit"
           >
             <ChipButton
               active={c.active}

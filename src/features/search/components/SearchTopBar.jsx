@@ -69,7 +69,7 @@ export default function SearchTopBar({
   const typeOptions = types || ["House for Sale"];
 
   return (
-    <div className="mx-auto w-full max-w-[940px]">
+    <div className="mx-auto w-full max-w-235">
       <div className="grid grid-cols-1 gap-3 md:grid-cols-[220px_1fr] lg:grid-cols-[220px_1fr_44px] lg:items-center">
         {/* Country */}
         <div className="relative">
@@ -120,7 +120,7 @@ export default function SearchTopBar({
 
           <button
             type="button"
-            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-l-none rounded-r-[14px] px-4 text-[14px] font-semibold text-white transition hover:brightness-95 sm:min-w-[112px] sm:px-5"
+            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-l-none rounded-r-[14px] px-4 text-[14px] font-semibold text-white transition hover:brightness-95 sm:min-w-28 sm:px-5"
             style={{ backgroundColor: accent }}
           >
             <Icon name="search" className="h-4 w-4" />
