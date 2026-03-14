@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { SEARCH, THEME, LAYOUT } from "../../../config/siteContent";
 import useSearchListings from "../hooks/useSearchListings";
 
@@ -123,7 +123,6 @@ export default function SearchPage() {
 
   return (
     <main className="bg-white">
-      {/* Search bar row */}
       <section className="pt-5 md:pt-6">
         <div className={container}>
           <SearchTopBar
@@ -137,7 +136,6 @@ export default function SearchPage() {
         </div>
       </section>
 
-      {/* Title + chips + actions */}
       <section className="pt-8 md:pt-10">
         <div className={container}>
           <div className="flex items-baseline gap-2.5">
@@ -179,7 +177,8 @@ export default function SearchPage() {
                 >
                   <img
                     src={VIEW_ICONS.grid}
-                    alt="Grid view"
+                    alt=""
+                    aria-hidden="true"
                     className="h-4.5 w-4.5 object-contain"
                     loading="lazy"
                   />
@@ -195,7 +194,8 @@ export default function SearchPage() {
                 >
                   <img
                     src={VIEW_ICONS.map}
-                    alt="Map view"
+                    alt=""
+                    aria-hidden="true"
                     className="h-4.5 w-4.5 object-contain"
                     loading="lazy"
                   />
@@ -206,10 +206,9 @@ export default function SearchPage() {
         </div>
       </section>
 
-      {/* Results */}
-      <section className="pt-10 pb-12 md:pt-12">
-        <div className={container}>
-          {view === "grid" ? (
+      {view === "grid" ? (
+        <section className="pt-10 pb-12 md:pt-12">
+          <div className={container}>
             <div className="grid grid-cols-1 gap-x-6 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
               {(isLoading && items.length === 0 ? Array.from({ length: 8 }) : items).map(
                 (it, idx) =>
@@ -234,11 +233,13 @@ export default function SearchPage() {
                   )
               )}
             </div>
-          ) : (
-            <MapCanvas accent={accent} map={map} items={items} />
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : (
+        <section className="pt-2 pb-0 md:pt-3">
+          <MapCanvas accent={accent} map={map} items={items} />
+        </section>
+      )}
 
       <FiltersModal
         open={filtersOpen}

@@ -1,5 +1,4 @@
-// src/features/search/components/MapCanvas.jsx
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { IMG } from "../../../config/images";
 
 function MiniIcon({ name, className }) {
@@ -17,6 +16,7 @@ function MiniIcon({ name, className }) {
       </svg>
     );
   }
+
   if (name === "bath") {
     return (
       <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -29,6 +29,7 @@ function MiniIcon({ name, className }) {
       </svg>
     );
   }
+
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
       <path
@@ -50,15 +51,46 @@ function Stat({ label, value }) {
   );
 }
 
-function makeFallbackPopup(marker) {
+function getPopupData(marker) {
+  const raw = marker?.popupData || marker?.popup || marker?.item || {};
+
   return {
-    agent: { name: "Tom Haverford", since: "Since 2020", avatar: marker?.image },
-    image: marker?.image,
-    title: "Avalon Heights",
-    location: "Sydney, Australia",
-    price: "$300,000",
-    meta: { beds: 3, baths: 3, area: "102 sq yd" },
-    stats: { tokenPrice: "$50", irr: "27.2%", apr: "16.7%" },
+    agent: {
+      name: raw?.agent?.name || "Verified Owner",
+      since: raw?.agent?.since || "Available now",
+      avatar: raw?.agent?.avatar || marker?.image || raw?.image,
+    },
+    image: raw?.image || marker?.image,
+    title: raw?.title || marker?.item?.title || "Property Listing",
+    location:
+      raw?.location ||
+      raw?.address ||
+      marker?.item?.address ||
+      marker?.item?.location ||
+      "Location not specified",
+    price: raw?.price || marker?.item?.price || "Price on request",
+    meta: {
+      beds:
+        raw?.meta?.beds ||
+        marker?.item?.meta?.rooms ||
+        marker?.item?.roomsLabel ||
+        "3",
+      baths:
+        raw?.meta?.baths ||
+        marker?.item?.meta?.baths ||
+        marker?.item?.bathsLabel ||
+        "2",
+      area:
+        raw?.meta?.area ||
+        marker?.item?.meta?.area ||
+        marker?.item?.areaLabel ||
+        "120m²",
+    },
+    stats: {
+      type: raw?.stats?.type || "Apartment",
+      purpose: raw?.stats?.purpose || "For Sale",
+      owner: raw?.stats?.owner || "Verified",
+    },
   };
 }
 
@@ -66,141 +98,224 @@ function MapPopupCard({ data, accent = "#D66557", onClose }) {
   if (!data) return null;
 
   return (
-    <div className="w-90 rounded-2xl bg-white shadow-2xl ring-1 ring-black/10">
+    <div className="w-full max-w-[22rem] rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 sm:max-w-[24rem]">
       <div className="flex items-center justify-between px-4 pt-4">
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-100 ring-1 ring-slate-200">
             {data?.agent?.avatar ? (
-              <img src={data.agent.avatar} alt="Agent" className="h-full w-full object-cover" />
+              <img
+                src={data.agent.avatar}
+                alt={data.agent.name || "Agent"}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
             ) : null}
           </div>
-          <div>
-            <div className="text-xs font-semibold text-slate-900">{data?.agent?.name}</div>
-            <div className="text-[11px] text-slate-500">{data?.agent?.since}</div>
+
+          <div className="min-w-0">
+            <div className="truncate text-xs font-semibold text-slate-900">
+              {data?.agent?.name}
+            </div>
+            <div className="truncate text-[11px] text-slate-500">{data?.agent?.since}</div>
           </div>
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full p-2 hover:bg-slate-50"
+          className="rounded-full p-2 transition hover:bg-slate-50"
           aria-label="Close"
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-600" fill="none" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
       </div>
 
-      <div className="px-4 pt-3">
+      <div className="px-4 pb-4 pt-3">
         <div className="overflow-hidden rounded-xl bg-slate-100">
           {data?.image ? (
-            <img src={data.image} alt={data.title} className="h-40 w-full object-cover" />
-          ) : null}
+            <img
+              src={data.image}
+              alt={data.title}
+              className="h-40 w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="h-40 w-full bg-slate-100" aria-hidden="true" />
+          )}
         </div>
 
         <div className="mt-3 flex items-end justify-between gap-3">
-          <div>
-            <div className="text-base font-semibold text-slate-900">{data?.title}</div>
-            <div className="text-xs text-slate-500">{data?.location}</div>
+          <div className="min-w-0">
+            <div className="truncate text-base font-semibold text-slate-900">{data?.title}</div>
+            <div className="truncate text-xs text-slate-500">{data?.location}</div>
           </div>
-          <div className="text-right">
+
+          <div className="shrink-0 text-right">
             <div className="text-[11px] text-slate-500">Property Price</div>
             <div className="text-lg font-semibold text-slate-900">{data?.price}</div>
           </div>
         </div>
 
-        <div className="mt-3 flex items-center gap-4 text-xs text-slate-600">
+        <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-600">
           <span className="inline-flex items-center gap-1" style={{ color: accent }}>
             <MiniIcon name="bed" className="h-4 w-4" />
             <span className="text-slate-700">{data?.meta?.beds}</span>
           </span>
+
           <span className="inline-flex items-center gap-1" style={{ color: accent }}>
             <MiniIcon name="bath" className="h-4 w-4" />
             <span className="text-slate-700">{data?.meta?.baths}</span>
           </span>
+
           <span className="inline-flex items-center gap-1" style={{ color: accent }}>
             <MiniIcon name="area" className="h-4 w-4" />
             <span className="text-slate-700">{data?.meta?.area}</span>
           </span>
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-3 pb-4">
-          <Stat label="Token Price" value={data?.stats?.tokenPrice} />
-          <Stat label="Projected IRR" value={data?.stats?.irr} />
-          <Stat label="Project APR" value={data?.stats?.apr} />
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          <Stat label="Type" value={data?.stats?.type} />
+          <Stat label="Purpose" value={data?.stats?.purpose} />
+          <Stat label="Owner" value={data?.stats?.owner} />
         </div>
       </div>
     </div>
   );
 }
 
+function normalizeMarkers(map, items) {
+  if (Array.isArray(map?.markers) && map.markers.length) {
+    return map.markers.map((marker, index) => ({
+      id: marker.id || `marker-${index + 1}`,
+      x: typeof marker.x === "number" ? marker.x : 50,
+      y: typeof marker.y === "number" ? marker.y : 50,
+      image:
+        marker.image ||
+        marker.imageSrc ||
+        marker?.popup?.image ||
+        marker?.popupData?.image ||
+        IMG.listings?.[index % (IMG.listings?.length || 1)],
+      popupData: marker.popupData || marker.popup || null,
+      item: marker.item || null,
+    }));
+  }
+
+  const fallbackPositions = [
+    { x: 52, y: 48 },
+    { x: 38, y: 36 },
+    { x: 28, y: 66 },
+    { x: 68, y: 56 },
+  ];
+
+  return (items || []).slice(0, 4).map((item, index) => ({
+    id: item.id || `marker-${index + 1}`,
+    x: fallbackPositions[index]?.x ?? 50,
+    y: fallbackPositions[index]?.y ?? 50,
+    image:
+      item.imageSrc ||
+      item.image ||
+      item.fallbackImage ||
+      IMG.listings?.[index % (IMG.listings?.length || 1)],
+    popupData: item.popupData || item.popup || null,
+    item,
+  }));
+}
+
+function getPopupDesktopClasses(marker) {
+  const x = marker?.x ?? 50;
+  const y = marker?.y ?? 50;
+
+  const horizontal =
+    x >= 74
+      ? "-translate-x-[calc(100%+1rem)]"
+      : x <= 26
+      ? "translate-x-4"
+      : "-translate-x-1/2";
+
+  const vertical = y <= 52 ? "translate-y-4" : "-translate-y-[calc(100%+1rem)]";
+
+  return `${horizontal} ${vertical}`;
+}
+
 export default function MapCanvas({ map, items = [], accent = "#D66557" }) {
-  const bg =
+  const backgroundImage =
     map?.backgroundSrc ||
     map?.fallbackBackground ||
     IMG.search?.map ||
     "/images/search/map.png";
 
-  //  use provided markers if exist, else generate from items
-  const markers = useMemo(() => {
-    if (map?.markers?.length) return map.markers;
-
-    const pos = [
-      { x: 52, y: 48 },
-      { x: 38, y: 36 },
-      { x: 28, y: 66 },
-    ];
-
-    const take = (items || []).slice(0, 3);
-    return take.map((it, idx) => ({
-      id: it.id || `m${idx + 1}`,
-      x: pos[idx]?.x ?? 50,
-      y: pos[idx]?.y ?? 50,
-      image: it.imageSrc || it.image || it.fallbackImage || IMG.listings[idx % IMG.listings.length],
-      popup: it.popup, // optional
-    }));
-  }, [map, items]);
-
+  const markers = useMemo(() => normalizeMarkers(map, items), [map, items]);
   const [activeId, setActiveId] = useState(null);
 
-  const activeMarker = markers.find((m) => m.id === activeId) || null;
-  const popupData = activeMarker ? (activeMarker.popup || activeMarker?.popupData || activeMarker.popup || makeFallbackPopup(activeMarker)) : null;
+  const activeMarker = markers.find((marker) => marker.id === activeId) || null;
+  const popupData = activeMarker ? getPopupData(activeMarker) : null;
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div className="relative z-10 w-full overflow-visible bg-white">
       <div
-        className="relative h-130 w-full bg-cover bg-center"
-        style={{ backgroundImage: `url(${bg})` }}
+        className="relative h-[560px] w-full bg-cover bg-center md:h-[680px] xl:h-[760px] 2xl:h-[840px]"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
         onClick={() => setActiveId(null)}
       >
-        {markers.map((m) => (
+        {markers.map((marker) => (
           <button
-            key={m.id}
+            key={marker.id}
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveId(m.id);
+            onClick={(event) => {
+              event.stopPropagation();
+              setActiveId((prev) => (prev === marker.id ? null : marker.id));
             }}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${m.x}%`, top: `${m.y}%` }}
-            aria-label={`Marker ${m.id}`}
+            className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
+            aria-label={`Open listing marker ${marker.id}`}
           >
-            <span className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white ring-4 ring-[#D66557]">
-              {m.image ? <img src={m.image} alt="" className="h-full w-full object-cover" /> : null}
+            <span className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white ring-4 ring-[#D66557] shadow-lg">
+              {marker.image ? (
+                <img
+                  src={marker.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              ) : null}
             </span>
           </button>
         ))}
 
-        {/* second UI: popup opens on marker click */}
         {activeMarker ? (
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <MapPopupCard data={popupData} accent={accent} onClose={() => setActiveId(null)} />
-          </div>
-      ) : null}
+          <>
+            <div
+              className="absolute inset-x-3 bottom-3 z-20 sm:hidden"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <MapPopupCard
+                data={popupData}
+                accent={accent}
+                onClose={() => setActiveId(null)}
+              />
+            </div>
+
+            <div
+              className={`absolute z-30 hidden sm:block ${getPopupDesktopClasses(activeMarker)}`}
+              style={{ left: `${activeMarker.x}%`, top: `${activeMarker.y}%` }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <MapPopupCard
+                data={popupData}
+                accent={accent}
+                onClose={() => setActiveId(null)}
+              />
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
